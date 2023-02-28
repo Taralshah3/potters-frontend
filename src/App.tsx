@@ -9,7 +9,7 @@ import { Configuration, OpenAIApi } from "openai";
 function App() {
 
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: "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",
   });
   const openai = new OpenAIApi(configuration);
   
@@ -18,11 +18,6 @@ function App() {
     const text = await file.text();
     document.getElementById("output")!.innerText = text;
     handleOpenAIAPICall(text);
-
-    // let file = event.target.value;
-    // var reader = new FileReader();
-    // reader.readAsText(file, "UTF-8");
-    // console.log("test");
   }
 
   async function handleOpenAIAPICall(fileText: any) {
@@ -33,7 +28,6 @@ function App() {
         temperature: 0.6,
         max_tokens: 100,
       });
-      // console.log("this is animal: " + completion.data.choices[0].text) 
       document.getElementById("summarized_output")!.innerText = completion.data.choices[0].text!;
   
     } catch(error) {
@@ -52,12 +46,9 @@ function App() {
         </div>
         <div style={{marginLeft: "10%"}}>
           <h3>Summarized Output</h3>
-          {/* <div>this is where the text will go when there's actually text here I wonder if it will be limited or anythign we'll see </div> */}
           <div style={{maxWidth: "500px"}}>
-            {/* <div>This is a test of everythign that is in it</div> */}
-          <pre id="summarized_output"></pre>
+            <div id="summarized_output"></div>
           </div>
-
         </div>
       </div>
     
