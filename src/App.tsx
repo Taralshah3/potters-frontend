@@ -5,6 +5,13 @@ import './App.css';
 import { Configuration, OpenAIApi } from "openai";
 import { isLoggedIn, logout } from './auth/helpers'
 import AuthGoogle from './auth/AuthGoogle'
+import FilesList from './FilesList';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 
 function App() {
 
@@ -48,24 +55,25 @@ function App() {
   }
 
   return (
-    <div style={{ marginLeft: "10%", marginTop: "5%" }}>
-      <AuthGoogle />
-      <button onClick={logout}>Logout</button>
-      <h1> File Summarizer ting </h1>
-      <input type="file" onChange={handleFileChange} />
-      <div style={{ display: "flex" }}>
-        <div>
-          <h3>Your Text File</h3>
-          <pre id="output"></pre>
-        </div>
-        <div style={{ marginLeft: "10%" }}>
-          <h3>Summarized Output</h3>
-          <div style={{ maxWidth: "500px" }}>
-            <div id="summarized_output"></div>
-          </div>
-        </div>
+    <div>
+      <Navbar bg="light" variant="light">
+        <Container>
+          <Navbar.Brand href="#home">clay.ai</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+          </Nav>
+          <AuthGoogle />
+        </Container>
+      </Navbar>
+      <div style={{marginTop: "3%", textAlign: 'center'}}>
+        <h3 >My Projects</h3>
+        <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
+          <Dropdown.Item href="#/action-1">Project 1</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Project 2</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Project 3</Dropdown.Item>
+        </DropdownButton> 
       </div>
-
+      <FilesList/>
     </div>
   );
 }

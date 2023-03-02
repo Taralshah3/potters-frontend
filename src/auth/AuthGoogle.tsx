@@ -2,6 +2,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, OAuthProvider } from "fir
 import { initializeApp } from "firebase/app";
 import { constants, endpoints, firebaseConfig } from "../constants";
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
+
 
 interface OAuthReturn {
     accessToken: string;
@@ -20,9 +22,11 @@ const provider = new GoogleAuthProvider();
 const AuthGoogle = () => {
 
     const [error, setError] = useState<string>('');
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
 
     const successfulLogin = (token: string) => {
         window.localStorage.setItem(constants.authHeader, token);
+        setUserLoggedIn(true);
     };
 
     const handleGoogle = async () => {
@@ -35,6 +39,7 @@ const AuthGoogle = () => {
                 name: result.user.displayName
             }
             // const credential = GoogleAuthProvider.credentialFromResult(result);
+            console.log(data.profilePicture);
             fetch(`${constants.apiUrl}${endpoints.googleAuth}`, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -56,7 +61,7 @@ const AuthGoogle = () => {
     }
     return (
         <div>
-            <button onClick={handleGoogle}>User Google Auth</button>
+            { userLoggedIn ? "Logged In" :  <Button onClick={handleGoogle} variant="primary">Sign in</Button> }
         </div>
     )
 }
