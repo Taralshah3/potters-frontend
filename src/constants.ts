@@ -5,7 +5,7 @@ const locaUrl: string = 'http://localhost:4500/api/v1';
 const liveUrl: string = 'https://potter-api-production.up.railway.app/api/v1';
 
 export const constants: ConstantTypes = {
-    apiUrl: liveUrl,
+    apiUrl: locaUrl,
     authHeader: "x-access-potter-auth-token",
 }
 

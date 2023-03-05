@@ -8,6 +8,7 @@ export interface ConstantTypes {
 export interface EndpointsTypes {
     isLoggedIn: string;
     googleAuth: string;
+    githubAuth?: string;
 };
 
 export interface FirebaseConfigTypes {

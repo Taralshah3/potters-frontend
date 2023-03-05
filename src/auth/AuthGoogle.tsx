@@ -21,6 +21,8 @@ const provider = new GoogleAuthProvider();
 
 const AuthGoogle = () => {
 
+    console.log(constants.apiUrl);
+
     const [error, setError] = useState<string>('');
     const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -47,6 +49,7 @@ const AuthGoogle = () => {
                     'Content-Type': 'application/json'
                 }
             }).then(async (response) => {
+                console.log("API: ", constants.apiUrl);
                 if (response.ok) {
                     const data: any = await response.json();
                     const token: string = data.token;
@@ -56,6 +59,7 @@ const AuthGoogle = () => {
                 }
             })
         }).catch(() => {
+            console.log("API: ", constants.apiUrl);
             setError('There was an error logging in with Google');
         });
     }

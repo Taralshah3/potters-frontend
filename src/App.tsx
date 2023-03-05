@@ -11,11 +11,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
+import GithubAuth from './auth/GithubAuth';
 
 function App() {
-
-
   useEffect(() => {
     isLoggedIn().then((res: boolean) => {
       if (res) {
@@ -63,6 +61,7 @@ function App() {
             <Nav.Link href="#home">Home</Nav.Link>
           </Nav>
           <AuthGoogle />
+          <GithubAuth/>
         </Container>
       </Navbar>
       <div style={{marginTop: "3%", textAlign: 'center'}}>
