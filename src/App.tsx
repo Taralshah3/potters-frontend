@@ -1,8 +1,6 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { constants, endpoints } from "./constants";
 import './App.css';
-import { Configuration, OpenAIApi } from "openai";
 import { isLoggedIn, logout } from './auth/helpers'
 import AuthGoogle from './auth/AuthGoogle'
 import FilesList from './FilesList';
@@ -13,7 +11,32 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import GithubAuth from './auth/GithubAuth';
 
+interface fileListTypes {
+  name: string,
+  id: string,
+}
+
 function App() {
+
+  const [dropdowns, setDropdowns] = useState<string[]>([]);
+  const [fileListElements, setFileListElements] = useState<fileListTypes[]>([]);
+
+  const dropdownClick = async (fileName: string) => {
+    console.log(fileName);
+    const response = await fetch(`${constants.apiUrl}${endpoints.githubRepo}/${fileName}`, {
+      method: 'GET',
+      headers: {
+        "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
+        "Content-Type": 'application/json',
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    const files: fileListTypes[] = data.files;
+    setFileListElements(files);
+  }
+
+
   useEffect(() => {
     isLoggedIn().then((res: boolean) => {
       if (res) {
@@ -25,32 +48,7 @@ function App() {
   }, []);
 
 
-  const configuration = new Configuration({
-    apiKey: "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",
-  });
-  const openai = new OpenAIApi(configuration);
 
-  async function handleFileChange(event: any) {
-    const file = event.target.files.item(0);
-    const text = await file.text();
-    document.getElementById("output")!.innerText = text;
-    handleOpenAIAPICall(text);
-  }
-
-  async function handleOpenAIAPICall(fileText: any) {
-    try {
-      const completion = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: 'give me a summary of this file: ' + fileText,
-        temperature: 0.6,
-        max_tokens: 100,
-      });
-      document.getElementById("summarized_output")!.innerText = completion.data.choices[0].text!;
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div>
@@ -61,18 +59,24 @@ function App() {
             <Nav.Link href="#home">Home</Nav.Link>
           </Nav>
           <AuthGoogle />
-          <GithubAuth/>
+          <GithubAuth setDropdowns={setDropdowns} />
         </Container>
       </Navbar>
-      <div style={{marginTop: "3%", textAlign: 'center'}}>
+      <div style={{ marginTop: "3%", textAlign: 'center' }}>
         <h3 >My Projects</h3>
         <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
-          <Dropdown.Item href="#/action-1">Project 1</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Project 2</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Project 3</Dropdown.Item>
-        </DropdownButton> 
+          {dropdowns.map((dropdown) => (
+            <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }}>
+              {dropdown}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
       </div>
-      <FilesList/>
+
+      <div>
+        {(setDropdowns.length > 0) ? (<FilesList />) : (<div>Select an drop down to get started</div>)}
+      </div>
+
     </div>
   );
 }

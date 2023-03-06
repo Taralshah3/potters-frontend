@@ -12,6 +12,8 @@ export const constants: ConstantTypes = {
 export const endpoints: EndpointsTypes = {
     isLoggedIn: "/auth/isLoggedIn",
     googleAuth: "/auth/google",
+    githubConnect: "/github/connect",
+    githubRepo: "/github/repo",
 }
 export const firebaseConfig: FirebaseConfigTypes = {
     apiKey: "AIzaSyA2LgZRKfH1y2T5NAxTtWxfkZZ0tbyzKYk",

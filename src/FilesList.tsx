@@ -15,8 +15,9 @@ import Tab from 'react-bootstrap/Tab';
 
 
 function FilesList() {
-    const codeFiles = [
-        { name: 'App.tsx', code: ` return (
+  const codeFiles = [
+    {
+      name: 'App.tsx', code: ` return (
           <div style={{padding: "3%"}}>
             <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
                       <Row>
@@ -59,7 +60,8 @@ function FilesList() {
           The Tab.Content component is used to display the actual code and summary for each file. The code and summary are rendered in separate columns on the right side of the view. The Tab.Pane component is used to create the content of each tab, with the eventKey prop used to link the tab to the corresponding code and summary.
           \n  
           Finally, the entire tabbed view is wrapped in a div with some padding applied to it.` },
-        { name: 'App.css', code: `.App {
+    {
+      name: 'App.css', code: `.App {
           text-align: center;
         }
         
@@ -106,7 +108,8 @@ function FilesList() {
         The .App-link class is used to set the color of any links in the application to a light blue.
         
         Finally, the @keyframes rule is used to define the spinning animation used by the .App-logo class. It defines a from and to state for the rotation transform property, causing the image to make a full rotation over the course of the animation.` },
-        { name: 'package.json', code: `{
+    {
+      name: 'package.json', code: `{
           "name": "app-name",
           "version": "0.1.0",
           "private": true,
@@ -159,52 +162,52 @@ function FilesList() {
         The eslintConfig section includes configuration for the ESLint tool, which is used for linting and enforcing code quality standards.
         
         The browserslist section specifies the browsers that the project should be compatible with in production and development environments. In production, it specifies that the project should be compatible with browsers that make up more than 0.2% of global browser usage, excluding browsers that are considered "dead" or have very low usage. In development, it specifies compatibility with the latest versions of Chrome, Firefox, and Safari.` },
-      ];
+  ];
 
-      return (
-        <div style={{padding: "3%"}}>
-          <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
-                    <Row>
-                      <Col sm={3}>
-                        <ListGroup>
-                          { codeFiles.map((file, index) => (
-                            <ListGroup.Item action href={"#link" + (index+1)}>
-                              {file.name}
-                            </ListGroup.Item>
-                          ))
-                          }
-                        </ListGroup>
-                      </Col>
-                      <Col sm={5}>
-                        <pre>
-                        <Tab.Content>
-                          {codeFiles.map((file, index) => (
-                            
-                                 <Tab.Pane eventKey={"#link" + (index+1)}>
-                              {file.code}
-                            </Tab.Pane>                           
-                          ))
-                          }
-                        </Tab.Content>
-                        </pre>
-                        
-                      </Col>
-                      <Col sm={4}>
-                        <h4>Summary</h4>
-                        <Tab.Content>
-                        {codeFiles.map((file, index) => (
-                            <Tab.Pane eventKey={"#link" + (index+1)}>
-                              {file.summary}
-                            </Tab.Pane>
-                          ))
-                          }
-                        </Tab.Content>
-                      </Col>          
-                    </Row>
-                  </Tab.Container>
-        </div>
-        
-      );
+  return (
+    <div style={{ padding: "3%" }}>
+      <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+        <Row>
+          <Col sm={3}>
+            <ListGroup>
+              {codeFiles.map((file, index) => (
+                <ListGroup.Item key={index} action href={"#link" + (index + 1)}>
+                  {file.name}
+                </ListGroup.Item>
+              ))
+              }
+            </ListGroup>
+          </Col>
+          <Col sm={5}>
+            <pre>
+              <Tab.Content>
+                {codeFiles.map((file, index) => (
+
+                  <Tab.Pane eventKey={"#link" + (index + 1)}>
+                    {file.code}
+                  </Tab.Pane>
+                ))
+                }
+              </Tab.Content>
+            </pre>
+
+          </Col>
+          <Col sm={4}>
+            <h4>Summary</h4>
+            <Tab.Content>
+              {codeFiles.map((file, index) => (
+                <Tab.Pane eventKey={"#link" + (index + 1)}>
+                  {file.summary}
+                </Tab.Pane>
+              ))
+              }
+            </Tab.Content>
+          </Col>
+        </Row>
+      </Tab.Container>
+    </div>
+
+  );
 }
 
 export default FilesList;
