@@ -5,13 +5,6 @@ import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 
 
-interface OAuthReturn {
-    accessToken: string;
-    success: boolean;
-    email: string;
-}
-
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
@@ -65,7 +58,7 @@ const AuthGoogle = () => {
     }
     return (
         <div>
-            { userLoggedIn ? "Logged In" :  <Button onClick={handleGoogle} variant="primary">Sign in</Button> }
+            {userLoggedIn ? "Logged In" : <Button onClick={handleGoogle} variant="primary">Sign in</Button>}
         </div>
     )
 }

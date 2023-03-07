@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { constants, endpoints } from "./constants";
+import { fileDictionary } from './types/constants';
 import './App.css';
 import { isLoggedIn, logout } from './auth/helpers'
 import AuthGoogle from './auth/AuthGoogle'
@@ -11,15 +12,28 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import GithubAuth from './auth/GithubAuth';
 
-interface fileListTypes {
-  name: string,
-  id: string,
-}
 
 function App() {
 
   const [dropdowns, setDropdowns] = useState<string[]>([]);
-  const [fileListElements, setFileListElements] = useState<fileListTypes[]>([]);
+  const [fileListElements, setFileListElements] = useState<fileDictionary>({});
+  const [activeFile, setActiveFile] = useState<string>("");
+
+
+  const refreshRepo = async () => {
+    console.log('resfreshing repo: ', activeFile);
+    const response = await fetch(`${constants.apiUrl}${endpoints.refreshRepo}/${activeFile}`, {
+      method: 'GET',
+      headers: {
+        "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
+        "Content-Type": 'application/json',
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    const files: fileDictionary = data.files;
+    setFileListElements(files);
+  }
 
   const dropdownClick = async (fileName: string) => {
     console.log(fileName);
@@ -30,10 +44,12 @@ function App() {
         "Content-Type": 'application/json',
       }
     });
+
     const data = await response.json();
     console.log(data);
-    const files: fileListTypes[] = data.files;
+    const files: fileDictionary = data.files;
     setFileListElements(files);
+    setActiveFile(fileName);
   }
 
 
@@ -74,7 +90,8 @@ function App() {
       </div>
 
       <div>
-        {(setDropdowns.length > 0) ? (<FilesList />) : (<div>Select an drop down to get started</div>)}
+        <button onClick={refreshRepo}>Refresh</button>
+        <FilesList files={fileListElements} />
       </div>
 
     </div>

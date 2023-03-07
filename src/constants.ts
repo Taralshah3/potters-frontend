@@ -14,6 +14,8 @@ export const endpoints: EndpointsTypes = {
     googleAuth: "/auth/google",
     githubConnect: "/github/connect",
     githubRepo: "/github/repo",
+    fileContents: "/user/file",
+    refreshRepo: "/github/refreshrepo",
 }
 export const firebaseConfig: FirebaseConfigTypes = {
     apiKey: "AIzaSyA2LgZRKfH1y2T5NAxTtWxfkZZ0tbyzKYk",

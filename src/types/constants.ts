@@ -4,12 +4,22 @@ export interface ConstantTypes {
     authHeader: string;
 }
 
+export interface fileDictionary {
+    [filePath: string]: {
+        name: string;
+        path: string;
+        type: string;
+    };
+}
+
 
 export interface EndpointsTypes {
     isLoggedIn: string;
     googleAuth: string;
     githubConnect: string;
     githubRepo: string;
+    fileContents: string;
+    refreshRepo: string;
 };
 
 export interface FirebaseConfigTypes {
