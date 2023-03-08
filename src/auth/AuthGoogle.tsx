@@ -11,17 +11,16 @@ const provider = new GoogleAuthProvider();
 
 
 
+interface AuthGoogleInterfrace {
+    redirect: (redirect: boolean) => void;
+}
 
-const AuthGoogle = () => {
 
-    console.log(constants.apiUrl);
-
-    const [error, setError] = useState<string>('');
-    const [userLoggedIn, setUserLoggedIn] = useState(false);
+const AuthGoogle = (props: AuthGoogleInterfrace) => {
 
     const successfulLogin = (token: string) => {
         window.localStorage.setItem(constants.authHeader, token);
-        setUserLoggedIn(true);
+        props.redirect(true);
     };
 
     const handleGoogle = async () => {
@@ -33,8 +32,7 @@ const AuthGoogle = () => {
                 profilePicture: result.user.photoURL,
                 name: result.user.displayName
             }
-            // const credential = GoogleAuthProvider.credentialFromResult(result);
-            console.log(data.profilePicture);
+
             fetch(`${constants.apiUrl}${endpoints.googleAuth}`, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -42,23 +40,17 @@ const AuthGoogle = () => {
                     'Content-Type': 'application/json'
                 }
             }).then(async (response) => {
-                console.log("API: ", constants.apiUrl);
                 if (response.ok) {
                     const data: any = await response.json();
                     const token: string = data.token;
                     successfulLogin(token);
-                } else {
-                    setError("Oops! Something went wrong. Please try again.");
                 }
             })
-        }).catch(() => {
-            console.log("API: ", constants.apiUrl);
-            setError('There was an error logging in with Google');
-        });
+        })
     }
     return (
         <div>
-            {userLoggedIn ? "Logged In" : <Button onClick={handleGoogle} variant="primary">Sign in</Button>}
+            <Button onClick={handleGoogle} variant="primary">Sign in</Button>
         </div>
     )
 }

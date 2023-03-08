@@ -1,13 +1,10 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { constants, endpoints } from "./constants";
+import { constants, endpoints } from "../constants";
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
-import { fileDictionary } from './types/constants';
+import { fileDictionary } from '../types/constants';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism.css';
 import 'prismjs/components/prism-javascript';
@@ -77,7 +74,7 @@ function FilesList(props: Props) {
       <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1" >
         <Row>
           <Col sm={3}>
-          <Form.Control style={{marginBottom: "10px"}} type="text" placeholder="Search files..." onChange={(event) => {setSearchText(event.target.value)}} />
+            <Form.Control style={{ marginBottom: "10px" }} type="text" placeholder="Search files..." onChange={(event) => { setSearchText(event.target.value) }} />
             <ListGroup>
               {filteredFiles.map((key, index) => (
                 <ListGroup.Item key={key} style={{ cursor: "pointer" }} active={selectedFileKey === key} onClick={() => { getSummary(key) }}>
@@ -88,12 +85,12 @@ function FilesList(props: Props) {
             </ListGroup>
           </Col>
           <Col sm={5} >
-            <CodeDisplay code={codeText}/>   
+            <CodeDisplay code={codeText} />
           </Col>
           <Col sm={4}>
             <h4>Summary</h4>
-            <div style={{whiteSpace: 'pre-line'}}>
-            {`${summaryText}`}
+            <div style={{ whiteSpace: 'pre-line' }}>
+              {`${summaryText}`}
             </div>
 
           </Col>

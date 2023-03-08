@@ -1,26 +1,27 @@
 import { useEffect, useState } from 'react';
-import { constants, endpoints } from "./constants";
-import { fileDictionary } from './types/constants';
-import './App.css';
-import { isLoggedIn, logout } from './auth/helpers'
-import AuthGoogle from './auth/AuthGoogle'
-import FilesList from './FilesList';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { constants, endpoints } from "../constants";
+import { fileDictionary } from '../types/constants';
+import '../styles/App.css';
+import FilesList from '../components/FilesList';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import GithubAuth from './auth/GithubAuth';
 import Button from 'react-bootstrap/Button';
-
+import { useOutletContext } from 'react-router-dom';
+import { User } from "../types/constants";
 
 
 function App() {
 
+  //@ts-ignore
+  const user: User = useOutletContext().user;
   const [dropdowns, setDropdowns] = useState<string[]>([]);
   const [fileListElements, setFileListElements] = useState<fileDictionary>({});
   const [activeFile, setActiveFile] = useState<string>("");
 
+
+  useEffect(() => {
+
+  }, []);
 
   const refreshRepo = async () => {
     console.log('resfreshing repo: ', activeFile);
@@ -32,7 +33,6 @@ function App() {
       }
     });
     const data = await response.json();
-    console.log(data);
     const files: fileDictionary = data.files;
     setFileListElements(files);
   }
@@ -48,52 +48,29 @@ function App() {
     });
 
     const data = await response.json();
-    console.log(data);
     const files: fileDictionary = data.files;
     setFileListElements(files);
     setActiveFile(fileName);
   }
 
 
-  useEffect(() => {
-    isLoggedIn().then((res: boolean) => {
-      if (res) {
-        console.log('✅ The user is logged in');
-      } else {
-        console.log('❌ Not authenticated');
-      }
-    });
-  }, []);
-
 
 
 
   return (
     <div>
-      <Navbar bg="light" variant="light">
-        <Container>
-          <Navbar.Brand href="#home">clay.ai</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-          </Nav>
-          <AuthGoogle />
-          <GithubAuth setDropdowns={setDropdowns} />
-        </Container>
-      </Navbar>
       <div style={{ marginTop: "3%", textAlign: 'center' }}>
         <h3 >My Projects</h3>
-        <div style={{display: "flex", justifyContent: "center", gap: '10px'}}>
-        <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
-          {dropdowns.map((dropdown) => (
-            <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }}>
-              {dropdown}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <Button size="sm" variant="outline-primary" onClick={refreshRepo}>Refresh Summaries</Button>
+        <div style={{ display: "flex", justifyContent: "center", gap: '10px' }}>
+          <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
+            {dropdowns.map((dropdown) => (
+              <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }}>
+                {dropdown}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+          <Button size="sm" variant="outline-primary" onClick={refreshRepo}>Refresh Summaries</Button>
         </div>
-        
-
       </div>
 
       <div>
