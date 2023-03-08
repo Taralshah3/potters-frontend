@@ -11,6 +11,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import GithubAuth from './auth/GithubAuth';
+import Button from 'react-bootstrap/Button';
+
 
 
 function App() {
@@ -80,6 +82,7 @@ function App() {
       </Navbar>
       <div style={{ marginTop: "3%", textAlign: 'center' }}>
         <h3 >My Projects</h3>
+        <div style={{display: "flex", justifyContent: "center", gap: '10px'}}>
         <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
           {dropdowns.map((dropdown) => (
             <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }}>
@@ -87,10 +90,13 @@ function App() {
             </Dropdown.Item>
           ))}
         </DropdownButton>
+        <Button size="sm" variant="outline-primary" onClick={refreshRepo}>Refresh Summaries</Button>
+        </div>
+        
+
       </div>
 
       <div>
-        <button onClick={refreshRepo}>Refresh</button>
         <FilesList files={fileListElements} />
       </div>
 
