@@ -2,7 +2,7 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
-import App from "./views/App";
+import Dashboard from "./views/Dashboard";
 import Home from "./views/Home";
 import AuthNavbar from "./components/AuthNavbar";
 import NoAuthNavbar from "./components/NoAuthNavarbar";
@@ -17,7 +17,7 @@ const Router = () => {
                 <Route path="*" element={<NotFound />} />
             </Route>
             <Route path="/user" element={<AuthNavbar />}>
-                <Route path="dashboard" element={<App />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="error" element={<NotFound />} />
                 <Route path="*" element={<NotFound />} />
             </Route>

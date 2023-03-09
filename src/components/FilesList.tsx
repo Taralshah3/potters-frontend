@@ -33,7 +33,6 @@ function FilesList(props: Props) {
   }, [codeText])
 
   useEffect(() => {
-    console.log('FilesList useEffect: ', props.files);
     //looop through the props.files and keep only the code files with type of file
     const codeFiles: fileDictionary = {};
     for (const key in props.files) {
@@ -41,13 +40,10 @@ function FilesList(props: Props) {
         codeFiles[key] = props.files[key];
       }
     }
-    console.log('codeFiles: ', codeFiles);
     setCodeFiles(codeFiles);
   }, [props.files]);
 
   const getSummary = async (fileId: string) => {
-    console.log('get summary: ', fileId);
-    console.log('getSummary: ', fileId);
     const response = await fetch(`${constants.apiUrl}${endpoints.fileContents}/${fileId}`, {
       method: 'GET',
       headers: {
@@ -56,8 +52,6 @@ function FilesList(props: Props) {
       }
     });
     const data = await response.json();
-    console.log('we are back');
-    console.log(data);
     const content: string = data.content;
     const summary: string = data.summary;
     setCodeText(content);

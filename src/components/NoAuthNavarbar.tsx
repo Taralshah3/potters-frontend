@@ -21,8 +21,8 @@ const NoAuthNavbar = () => {
 
     useEffect(() => {
         isLoggedIn().then((result: isLoggedInResponse) => {
-            if (!result.res) {
-                setShouldRedirect(true);
+            if (result.res) {
+                setIsAuthenticated(true);
             }
         });
     }, []);
@@ -33,7 +33,6 @@ const NoAuthNavbar = () => {
             <Navigate to={'/user/dashboard'} />
         )
     }
-
     return (
         <>
             <Navbar bg="light" variant="light">
@@ -43,7 +42,7 @@ const NoAuthNavbar = () => {
                         ?
                         <Button
                             onClick={() => { setShouldRedirect(true) }}>
-                            Home
+                            Dashboard
                         </Button>
                         :
                         <AuthGoogle
