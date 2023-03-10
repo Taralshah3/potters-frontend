@@ -53,7 +53,7 @@ const GithubAuth = (props: GithubAuthProps) => {
 
   return (
     <div>
-      {<Button onClick={handleLogin} variant="primary">Sign in with github</Button>}
+      {<Button onClick={handleLogin} variant="dark">Sign in with github</Button>}
     </div>
   )
 }

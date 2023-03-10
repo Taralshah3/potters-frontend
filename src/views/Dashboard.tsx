@@ -100,7 +100,7 @@ function Dashboard() {
         </div>
         :
         <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
-          <h3 style={{ textAlign: 'center' }}>Sign in to view your projects</h3>
+          <h3 style={{ textAlign: 'center', marginRight: '20px' }}>Sign in to view your projects</h3>
           <GithubAuth setDropdowns={dropDownSetter} />
         </div>
       }
