@@ -33,15 +33,16 @@ const NoAuthNavbar = () => {
             <Navigate to={'/user/dashboard'} />
         )
     }
+
     return (
         <>
-            <Navbar bg="light" variant="light">
+            <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="#home">clay.ai no auth</Navbar.Brand>
+                    <Navbar.Brand >clay.ai </Navbar.Brand>
                     {(isAuthenticated)
                         ?
                         <Button
-                            onClick={() => { setShouldRedirect(true) }}>
+                            onClick={() => { setShouldRedirect(true) }} variant="dark">
                             Dashboard
                         </Button>
                         :
@@ -51,7 +52,7 @@ const NoAuthNavbar = () => {
                     }
                 </Container>
             </Navbar>
-            <Outlet />
+            <Outlet context={{ isAuthenticated: isAuthenticated, setShouldRedirect: setShouldRedirect }} />
         </>
     )
 

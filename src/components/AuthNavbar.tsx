@@ -36,11 +36,11 @@ const AuthNavbar = () => {
 
     return (
         <>
-            <Navbar bg="light" variant="light">
+            <Navbar bg="dark" variant="dark">
                 <Container>
-                    <Navbar.Brand href="#home">clay.ai</Navbar.Brand>
+                    <Navbar.Brand>clay.ai</Navbar.Brand>
                     <Nav>
-                        <Button onClick={logoutClicked}>Logout</Button>
+                        <Button onClick={logoutClicked} variant="dark">Logout</Button>
                     </Nav>
                 </Container>
             </Navbar>

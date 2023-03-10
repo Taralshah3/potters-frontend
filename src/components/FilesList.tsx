@@ -64,32 +64,31 @@ function FilesList(props: Props) {
   );
 
   return (
-    <div style={{ padding: "3%" }}>
-      <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1" >
-        <Row>
-          <Col sm={3}>
-            <Form.Control style={{ marginBottom: "10px" }} type="text" placeholder="Search files..." onChange={(event) => { setSearchText(event.target.value) }} />
-            <ListGroup>
-              {filteredFiles.map((key, index) => (
-                <ListGroup.Item key={key} style={{ cursor: "pointer" }} active={selectedFileKey === key} onClick={() => { getSummary(key) }}>
-                  {codeFiles[key].name}
-                </ListGroup.Item>
-              ))
-              }
-            </ListGroup>
-          </Col>
-          <Col sm={5} >
-            <CodeDisplay code={codeText} />
-          </Col>
-          <Col sm={4}>
-            <h4>Summary</h4>
-            <div style={{ whiteSpace: 'pre-line' }}>
-              {`${summaryText}`}
-            </div>
+    <div className='FileList'>
+      <div className='FileList-list'>
+        <Form.Control type="text" placeholder="Search files..." onChange={(event) => { setSearchText(event.target.value) }} />
+        <ListGroup variant='dark'>
+          {filteredFiles.map((key, index) => (
+            <ListGroup.Item key={key} style={{ cursor: "pointer" }} active={selectedFileKey === key} onClick={() => { getSummary(key) }}>
+              {codeFiles[key].name}
+            </ListGroup.Item>
+          ))
+          }
+        </ListGroup>
+      </div>
 
-          </Col>
-        </Row>
-      </Tab.Container>
+      <div className='FileList-code'>
+        <CodeDisplay code={codeText} />
+      </div>
+      <div className='FileList-summary'>
+        <h4>Summary</h4>
+        <div style={{ whiteSpace: 'pre-line' }}>
+          {`${summaryText}`}
+        </div>
+
+      </div>
+
+
     </div>
 
   );

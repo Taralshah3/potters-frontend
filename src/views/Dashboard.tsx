@@ -10,7 +10,7 @@ import { useOutletContext } from 'react-router-dom';
 import { User } from "../types/constants";
 import GithubAuth from '../auth/GithubAuth';
 import LoadingIcon from "../components/LoadingIcon";
-import { time } from 'console';
+import "../styles/Dashboard.css";
 
 function Dashboard() {
 
@@ -18,13 +18,11 @@ function Dashboard() {
   const user: User = useOutletContext().user;
   const [dropdowns, setDropdowns] = useState<string[]>([]);
   const [fileListElements, setFileListElements] = useState<fileDictionary>({});
-  const [activeFile, setActiveFile] = useState<string>("");
+  const [activeRepo, setActiveRepo] = useState<string>("");
   const [accessGitHub, setAccessGitHub] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('at use effect');
-    console.log(user);
     if (user && user.githubId && dropdowns.length === 0) {
       //@ts-ignore
       const dropdowns: string[] = user.repositories.map((index) => { return index.name });
@@ -40,66 +38,71 @@ function Dashboard() {
   const refreshRepo = async () => {
     if (!isRefreshing) {
       setIsRefreshing(true);
-      //have a ten second timeout
-      const timeout = setTimeout(() => {
-        setIsRefreshing(false);
-      }, 10000);
-      // const response = await fetch(`${constants.apiUrl}${endpoints.refreshRepo}/${activeFile}`, {
-      //   method: 'GET',
-      //   headers: {
-      //     "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
-      //     "Content-Type": 'application/json',
-      //   }
-      // });
-      // const data = await response.json();
-      // const files: fileDictionary = data.files;
-      // setFileListElements(files);
-      // setIsRefreshing(false);
+      const response = await fetch(`${constants.apiUrl}${endpoints.refreshRepo}/${activeRepo}`, {
+        method: 'GET',
+        headers: {
+          "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
+          "Content-Type": 'application/json',
+        }
+      });
+      const data = await response.json();
+      const files: fileDictionary = data.files;
+      setFileListElements(files);
+      setIsRefreshing(false);
     }
   }
 
   const dropdownClick = async (fileName: string) => {
-    const response = await fetch(`${constants.apiUrl}${endpoints.githubRepo}/${fileName}`, {
-      method: 'GET',
-      headers: {
-        "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
-        "Content-Type": 'application/json',
-      }
-    });
+    if (!isRefreshing) {
+      setIsRefreshing(true);
+      const response = await fetch(`${constants.apiUrl}${endpoints.githubRepo}/${fileName}`, {
+        method: 'GET',
+        headers: {
+          "x-access-potter-auth-token": localStorage.getItem(constants.authHeader) || "",
+          "Content-Type": 'application/json',
+        }
+      });
 
-    const data = await response.json();
-    const files: fileDictionary = data.files;
-    setFileListElements(files);
-    setActiveFile(fileName);
+      const data = await response.json();
+      const files: fileDictionary = data.files;
+      setFileListElements(files);
+      setActiveRepo(fileName);
+      setIsRefreshing(false);
+    }
   }
 
   return (
-    <div>
-
+    <div className='Dashboard'>
       {(accessGitHub)
         ?
-        <div>
-          <div style={{ marginTop: "3%", textAlign: 'center' }}>
+        <div className='Dashboard-body'>
+          <header className='Dashboard-header'>
             <h3 >My Projects</h3>
-            <div style={{ display: "flex", justifyContent: "center", gap: '10px' }}>
-              <DropdownButton size="sm" id="dropdown-basic-button" title="Select Project" >
+            <div style={{ marginRight: '15px' }}>
+              <DropdownButton size="sm" id="dropdown-basic-button" title={(activeRepo === "") ? "Select Project" : activeRepo} variant='dark'>
                 {dropdowns.map((dropdown) => (
-                  <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }}>
+                  <Dropdown.Item key={dropdown} onClick={() => { dropdownClick(dropdown) }} variant='dark'>
                     {dropdown}
                   </Dropdown.Item>
                 ))}
               </DropdownButton>
-              <Button size="sm" variant="outline-primary" onClick={refreshRepo} disabled={isRefreshing}>Refresh Current Repo</Button>
             </div>
-          </div>
-
-          <div>
-            <FilesList files={fileListElements} />
-          </div>
+            {
+              (activeRepo !== "")
+                ?
+                <Button size="sm" variant="outline-dark" onClick={refreshRepo} disabled={isRefreshing}>Refresh</Button>
+                :
+                <></>
+            }
+          </header>
+          <FilesList files={fileListElements} />
           {(isRefreshing) ? <LoadingIcon /> : <></>}
         </div>
         :
-        <GithubAuth setDropdowns={dropDownSetter} />
+        <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+          <h3 style={{ textAlign: 'center' }}>Sign in to view your projects</h3>
+          <GithubAuth setDropdowns={dropDownSetter} />
+        </div>
       }
 
     </div>

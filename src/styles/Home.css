@@ -1,0 +1,29 @@
+.Home {
+    background-color: var(--offwhite);
+    height: calc(100vh - var(--header-height));
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home-conent {
+    margin-bottom: 50px;
+}
+
+.Home-conent h1 {
+    font-size: 50px;
+    margin-bottom: 0;
+}
+
+.getStart-home {
+    background-color: var(--offBlack);
+    color: white;
+    border: none;
+    border-radius: 1px;
+    padding: 10px 20px;
+    font-size: 20px;
+    margin-top: 15px;
+    cursor: pointer;
+}

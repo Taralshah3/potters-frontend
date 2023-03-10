@@ -13,6 +13,7 @@ const provider = new GoogleAuthProvider();
 
 interface AuthGoogleInterfrace {
     redirect: (redirect: boolean) => void;
+    class?: string;
 }
 
 
@@ -50,7 +51,14 @@ const AuthGoogle = (props: AuthGoogleInterfrace) => {
     }
     return (
         <div>
-            <Button onClick={handleGoogle} variant="primary">Sign in</Button>
+            {
+                (props.class)
+                    ?
+                    <button className={props.class} onClick={handleGoogle}>Join Clay</button>
+                    :
+                    <Button onClick={handleGoogle} variant="dark">Sign in</Button>
+            }
+
         </div>
     )
 }

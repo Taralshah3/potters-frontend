@@ -2,6 +2,7 @@
 export interface ConstantTypes {
     apiUrl: string;
     authHeader: string;
+    browserUrl: string;
 }
 
 export interface fileDictionary {

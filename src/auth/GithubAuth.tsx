@@ -10,7 +10,7 @@ interface GithubAuthProps {
 const GithubAuth = (props: GithubAuthProps) => {
   const { setDropdowns } = props;
   const CLIENT_ID = 'dd9aa4570f110091da24';
-  const REDIRECT_URI = 'http://localhost:3000/user/dashboard';
+  const REDIRECT_URI = `${constants.browserUrl}/user/dashboard`;
 
   function handleLogin() {
     window.location.href = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo,read:org`;

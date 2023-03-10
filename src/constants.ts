@@ -4,8 +4,12 @@ import { ConstantTypes, EndpointsTypes, FirebaseConfigTypes } from "./types/cons
 const locaUrl: string = 'http://localhost:4500/api/v1';
 const liveUrl: string = 'https://potter-api-production.up.railway.app/api/v1';
 
+const localBrowserUrl: string = 'localhost:3000';
+const liveBrowserUrl: string = 'https://clayai.netlify.app';
+
 export const constants: ConstantTypes = {
-    apiUrl: locaUrl,
+    apiUrl: liveUrl,
+    browserUrl: liveBrowserUrl,
     authHeader: "x-access-potter-auth-token",
 }
 
