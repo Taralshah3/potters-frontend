@@ -8,8 +8,8 @@ const localBrowserUrl: string = 'localhost:3000';
 const liveBrowserUrl: string = 'https://clayai.netlify.app';
 
 export const constants: ConstantTypes = {
-    apiUrl: liveUrl,
-    browserUrl: liveBrowserUrl,
+    apiUrl: locaUrl,
+    browserUrl: localBrowserUrl,
     authHeader: "x-access-potter-auth-token",
 }
 
